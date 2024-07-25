@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Store } from './store/store';
+import './index.css';
 
 interface State {
   store: Store;
