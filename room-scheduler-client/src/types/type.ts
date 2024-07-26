@@ -5,3 +5,7 @@ export enum Paths {
     RegistrationPage = '/registration',
     NotFoundPage = '*'
 }
+
+export interface LoginFormProps {
+    typeForm: string;
+}
