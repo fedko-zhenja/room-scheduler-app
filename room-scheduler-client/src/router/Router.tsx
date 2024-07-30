@@ -1,43 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Layout } from "../components/Layout";
-import { Paths } from "../types/type";
-import { HomePage } from "../components/pages/HomePage";
-import { LoginPage } from "../components/pages/LoginPage";
-import { SchedulePage } from "../components/pages/SchedulePage";
-import { RegistrationPage } from "../components/pages/RegistrationPage";
-import { NotFoundPage } from "../components/pages/NotFoundPage";
-import { ErrorPage } from "../components/pages/ErrorPage";
-
-const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Layout/>,
-      errorElement: <ErrorPage/>,
-      children: [
-        {
-          path: Paths.HomePage,
-          element: <HomePage/>,
-        },
-        {
-          path: Paths.SchedulePage,
-          element: <SchedulePage/>,
-        },
-        {
-          path: Paths.LoginPage,
-          element: <LoginPage/>,
-        },
-        {
-          path: Paths.RegistrationPage,
-          element: <RegistrationPage/>,
-        },
-        {
-          path: Paths.NotFoundPage,
-          element: <NotFoundPage/>,
-        },
-      ],
-    },
-  ]);
+import { RouterProvider } from "react-router-dom";
+import { Context } from "../index";
+import { useContext, useEffect, useState } from "react";
+import { protectedRouter, publicRouter } from "./routes";
+import { observer } from "mobx-react-lite";
   
-  export function Router() {
-    return <RouterProvider router={router} />;
-  }
+export const Router = observer(() => {
+  const { store } = useContext(Context);
+  const [router, setRouter] = useState(store.isAuth ? protectedRouter : publicRouter);
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (localStorage.getItem('token') && !isChecked) {
+        await store.checkAuth();
+        setIsChecked(true);
+      }
+    };
+    checkAuth();
+  }, [isChecked, store]);
+
+  useEffect(() => {
+    setRouter(store.isAuth ? protectedRouter : publicRouter);
+  }, [store.isAuth]);
+
+  return <RouterProvider router={router} key={store.isAuth ? "protected" : "public"} />;
+});

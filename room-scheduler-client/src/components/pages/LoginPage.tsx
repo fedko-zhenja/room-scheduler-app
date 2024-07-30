@@ -1,5 +1,5 @@
 import {FC} from "react";
-import LoginForm from "../LoginForm/LoginForm";
+import { LoginForm } from "../LoginForm/LoginForm";
 import { Paths } from "../../types/type";
 import { LoginFormWrapper } from "../LoginForm/LoginForm.style";
 

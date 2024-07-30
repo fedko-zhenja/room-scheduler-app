@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IUser } from "../models/IUser";
+import { IUser } from "../types/models/IUser";
 import { makeAutoObservable } from "mobx";
 import { AuthService } from "../services/AuthService";
 import axios from "axios";
-import { AuthResponse } from "../models/response/AuthResponse";
+import { AuthResponse } from "../types/models/response/AuthResponse";
 import { API_URL } from "../http/http";
 
 export class Store {
@@ -27,7 +27,7 @@ export class Store {
         this.isLoading = bool;
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string, redirectFunc: () => void) {
         try {
             const response = await AuthService.login(email, password);
             localStorage.setItem('token', response.data.accessToken);
@@ -35,12 +35,14 @@ export class Store {
 
             this.setAuth(true);
             this.setUser(response.data.user);
+
+            redirectFunc();
         } catch(err: any) {
             console.log(err.response?.data?.message);
         }
     }
 
-    async registration(email: string, password: string) {
+    async registration(email: string, password: string, redirectFunc: () => void) {
         try {
             const response = await AuthService.registration(email, password);
             console.log(response);
@@ -48,6 +50,8 @@ export class Store {
 
             this.setAuth(true);
             this.setUser(response.data.user);
+
+            redirectFunc();
         } catch(err: any) {
             console.log(err.response?.data?.message);
         }

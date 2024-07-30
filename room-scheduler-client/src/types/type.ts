@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum Paths {
     HomePage = '/',
     SchedulePage = '/schedule',
@@ -8,4 +10,12 @@ export enum Paths {
 
 export interface LoginFormProps {
     typeForm: string;
+}
+
+export interface ErrorBoundaryProps {
+    children: ReactNode;
+}
+  
+export interface ErrorBoundaryState {
+    hasError: boolean;
 }

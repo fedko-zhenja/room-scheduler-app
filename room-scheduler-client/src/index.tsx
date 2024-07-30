@@ -1,8 +1,9 @@
 import { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { App } from './App';
 import { Store } from './store/store';
 import './index.css';
+import ErrorBoundary from 'antd/es/alert/ErrorBoundary';
 
 interface State {
   store: Store;
@@ -19,7 +20,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
+  <ErrorBoundary>
     <Context.Provider value={{store}}>
       <App />
-  </Context.Provider>
+    </Context.Provider>
+  </ErrorBoundary>
 );
