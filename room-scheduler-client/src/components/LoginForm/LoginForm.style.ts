@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const LoginFormContent = styled.div`
-    padding: 50px;
+    padding: 50px 50px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
